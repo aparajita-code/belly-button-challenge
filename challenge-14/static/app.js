@@ -1,39 +1,47 @@
 // Build the metadata panel
 function buildMetadata(sample) {
+  d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
-  //delare the url variable within the function
-  let url = "https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json"
+
+
+
+//// Build the metadata panel
+//function buildMetadata(sample) {
+
+  ////delare the url variable within the function
+  //let url = "https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json"
    
-  // use d3 to pull in data and establish variables by object
-  d3.json(url).then((data) => {
-     console.log(data);
-   });        
+  //// use d3 to pull in data and establish variables by object
+  //d3.json(url).then((data) => {
+    // console.log(data);
+   //});        
     
-    
-    let metaData = data.metadata;
+   // Get the metadata field
+    let metadata = data.metadata;
   
     
 
     // Filter the metadata for the object with the desired sample number
-    let resultArray = data.samples.filter(sampleObj => sampleObj.id == sample);
+    let resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
     let result = resultArray[0];
    
     
 
     // Use d3 to select the panel with id of `#sample-metadata`
-     let panel = d3.select("#sample-metadata");
+    let PANEL = d3.select("#sample-metadata");
 
     // Use `.html("") to clear any existing metadata
-     panel.html("");
+    PANEL.html("");
 
      
      
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metadata.
     for (key in result){
-     panel.append("h6").text(`${key.toUpperCase()}: ${result[key]}`)
-    };
-  };
+     PANEL.append("h6").text(`${key.toUpperCase()}: ${result[key]}`);
+    };  
+  });
+}
 
 
 
@@ -83,7 +91,7 @@ function buildCharts(sample) {
 
     // Build a Bar Chart
     // Don't forget to slice and reverse the input data appropriately
-    let yticks = otu_ids.slice(0, 10).map(otuID => `OTU ${otuID}}`).reverse();
+    let yticks = otu_ids.slice(0, 10).map(otuID => `OTU ${otuID}`).reverse();
     let barData =  [
       {
         y:yticks,
